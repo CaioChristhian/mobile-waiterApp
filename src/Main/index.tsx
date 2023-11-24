@@ -6,6 +6,7 @@ import * as S from './styles';
 import { Categories } from '../components/Categories';
 import { Button } from '../components/Button';
 import { Menu } from '../components/Menu';
+import { TableModal } from '../components/TableModal';
 
 export function Main(){
 	return (
@@ -29,6 +30,8 @@ export function Main(){
 					</Button>
 				</S.FooterContainer>
 			</S.Footer>
+
+			<TableModal />
 		</>
 
 	);
