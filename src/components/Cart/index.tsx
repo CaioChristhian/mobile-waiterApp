@@ -11,28 +11,51 @@ import * as S from './styles';
 import { Button } from '../Button';
 import { Product } from '../../types/Product';
 import { OrderConfirmedModal } from '../OrderConfirmedModal';
+import { api } from '../../utils/api';
 
 
 interface CartProps {
 	cartItems: CartItem[];
 	onAdd: (product: Product) => void;
 	onDecrement: (product: Product) => void;
+	onConfirmOrder: () => void;
+	selectedTable: string;
 }
 
-export function Cart({ cartItems, onAdd, onDecrement }: CartProps){
-	const [ isModalVisible, setIsModalVisible] = useState(false);
+export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder, selectedTable }: CartProps){
+	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
 
 	const total = cartItems.reduce((acc, cartItem) => {
 		return acc + cartItem.quantity * cartItem.product.price;
 	}, 0);
 
-	function handleConfirmOrder() {
+	async function handleConfirmOrder() {
+		setIsLoading(true);
+
+		const payload = {
+			table: selectedTable,
+			products: cartItems.map((cartItem) => ({
+				product: cartItem.product._id,
+				quantity: cartItem.quantity
+			}))
+		};
+
+		api.post('/orders', payload);
+
+		setIsLoading(false);
 		setIsModalVisible(true);
+	}
+
+	function handleOk() {
+		onConfirmOrder();
+		setIsModalVisible(false);
 	}
 
 	return (
 		<>
-			<OrderConfirmedModal onOk={() => setIsModalVisible(false)} visible={isModalVisible} />
+			<OrderConfirmedModal onOk={handleOk} visible={isModalVisible} />
 
 			{cartItems.length > 0 && (
 				<FlatList
@@ -45,7 +68,7 @@ export function Cart({ cartItems, onAdd, onDecrement }: CartProps){
 							<S.ProductContainer>
 								<S.Image
 									source={{
-										uri: 'https://i.pinimg.com/736x/a9/15/05/a91505ce5e4f27e5a80fd3dc2bb287f4.jpg' /* htt://localhost:3001/uploads/${cartItem.product.imagePath} */
+										uri: `http://10.10.30.29:3001/uploads/${cartItem.product.imagePath}` /* http://localhost:3001/uploads/${cartItem.product.imagePath} */
 									}}
 								/>
 
@@ -87,7 +110,7 @@ export function Cart({ cartItems, onAdd, onDecrement }: CartProps){
 					)}
 				</S.TotalContainer>
 
-				<Button disabled={cartItems.length === 0} onPress={handleConfirmOrder}>
+				<Button loading={isLoading} disabled={cartItems.length === 0} onPress={handleConfirmOrder}>
 					Confirmar Pedido
 				</Button>
 			</S.Summary>
