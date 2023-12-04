@@ -19,11 +19,11 @@ export function OrderConfirmedModal({ visible, onOk }: OrderConfirmedModalProps)
 			<S.Container>
 				<CheckCircle />
 
-				<Text color="#FFF" size={20} weight="500" style={{ marginTop: 12, marginBottom: 4 }}>Pedido Confirmado</Text>
+				<Text color="#FFF" size={20} weight="600" style={{ marginTop: 12, marginBottom: 4 }}>Pedido Confirmado</Text>
 				<Text color="#FFF" opacity={0.9}>O Pedido já entrou na fila de produção!</Text>
 
 				<S.OkButton onPress={onOk}>
-					<Text color="#D73035" weight="500">OK</Text>
+					<Text color="#D73035" weight="600">OK</Text>
 				</S.OkButton>
 			</S.Container>
 		</Modal>

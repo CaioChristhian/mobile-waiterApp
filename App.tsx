@@ -1,6 +1,7 @@
+import React from 'react';
 import { useFonts } from 'expo-font';
-import { Main } from './src/Main';
 import { StatusBar } from 'expo-status-bar';
+import { Routes } from './src/routes';
 
 export default function App() {
 	const [isFontsLoaded] = useFonts({
@@ -16,7 +17,7 @@ export default function App() {
 	return (
 		<>
 			<StatusBar style='dark' />
-			<Main />
+			<Routes />
 		</>
 	);
 }
