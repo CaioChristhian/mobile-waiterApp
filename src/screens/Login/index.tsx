@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
 
-import * as S from './styles';
 import { Text } from '../../components/Text';
 import { Input } from '../../components/Input';
 import { Button } from '../../components/Button';
-import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
+
+import * as S from './styles';
+
 
 export function Login(){
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+
+
+
+	function handleLogin() {
+		console.log(email);
+		console.log(password);
+	}
+
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			<S.Container behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
@@ -22,6 +34,7 @@ export function Login(){
 					<S.InputContainer isFirst={true}>
 						<Text style={{ marginBottom: 8 }}>E-mail</Text>
 						<Input
+							onChangeText={setEmail}
 							placeholderTextColor='#999999'
 							placeholder='Seu e-mail de acesso'
 						/>
@@ -30,6 +43,7 @@ export function Login(){
 					<S.InputContainer>
 						<Text style={{ marginBottom: 8 }}>Senha</Text>
 						<Input
+							onChangeText={setPassword}
 							isPassword
 							placeholderTextColor='#999999'
 							placeholder='Informe sua Senha'
@@ -37,7 +51,7 @@ export function Login(){
 					</S.InputContainer>
 				</S.Form>
 
-				<Button style={{ width: '100%' }}  onPress={() => alert('login')}>Fazer Login</Button>
+				<Button style={{ width: '100%' }}  onPress={handleLogin}>Fazer Login</Button>
 			</S.Container>
 		</TouchableWithoutFeedback>
 	);
