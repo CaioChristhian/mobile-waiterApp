@@ -22,3 +22,8 @@ export const InputContainer = styled.View<{ isFirst?: boolean }>`
 	align-items: flex-start;
 	margin-bottom: ${props => props.isFirst ? '24px' : '0'};
 `;
+
+export const ErrorContainer = styled.View`
+	flex-direction: row;
+	margin-top: 8px;
+`;
