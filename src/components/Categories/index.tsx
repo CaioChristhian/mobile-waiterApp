@@ -39,7 +39,7 @@ export function Categories({ categories, onSelectCategory }: CategoriesProps){
 								<Text opacity={isSelected ? 1 : 0.5} >{category.icon}</Text>
 							</S.Icon>
 
-							<Text opacity={isSelected ? 1 : 0.5} size={14} weight="500">{category.name}</Text>
+							<Text opacity={isSelected ? 1 : 0.5} size={14} weight="600">{category.name}</Text>
 						</S.CategoryContainer>
 					);
 				}}
