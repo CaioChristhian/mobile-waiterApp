@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 
-import { Header } from '../components/Header';
-import { Categories } from '../components/Categories';
-import { Button } from '../components/Button';
-import { Menu } from '../components/Menu';
-import { TableModal } from '../components/TableModal';
-import { Cart } from '../components/Cart';
-import { Empty } from '../components/Icons/Empty';
-import { Text } from '../components/Text';
+import { Header } from '../../components/Header';
+import { Categories } from '../../components/Categories';
+import { Button } from '../../components/Button';
+import { Menu } from '../../components/Menu';
+import { TableModal } from '../../components/TableModal';
+import { Cart } from '../../components/Cart';
+import { Empty } from '../../components/Icons/Empty';
+import { Text } from '../../components/Text';
 
-import { Category } from '../types/Category';
-import { CartItem } from '../types/CartItem';
-import { Product } from '../types/Product';
+import { Category } from '../../types/Category';
+import { CartItem } from '../../types/CartItem';
+import { Product } from '../../types/Product';
 
-import { api } from '../utils/api';
+import { api } from '../../utils/api';
 
 import * as S from './styles';
 
@@ -163,7 +163,7 @@ export function Main(){
 				)}
 
 			</S.Container>
-			<S.Footer>
+			{/* <S.Footer>
 				<S.FooterContainer>
 					{!selectedTable &&
 					<Button
@@ -184,7 +184,7 @@ export function Main(){
 						/>
 					)}
 				</S.FooterContainer>
-			</S.Footer>
+			</S.Footer> */}
 
 			<TableModal
 				onSave={handleSaveTable}

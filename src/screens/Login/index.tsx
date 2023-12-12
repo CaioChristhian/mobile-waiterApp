@@ -8,6 +8,8 @@ import { Button } from '../../components/Button';
 import * as S from './styles';
 import { Info } from '../../components/Icons/Info';
 import { LoginLoadModal } from '../../components/LoginLoadModal';
+import { useNavigation } from '@react-navigation/native';
+import { PropsStack } from '../../routes/models';
 
 const mocks = {
 	email: 'caio@gmail.com',
@@ -15,6 +17,8 @@ const mocks = {
 };
 
 export function Login(){
+	const navigation = useNavigation<PropsStack>();
+
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [errorEmail, setErrorEmail] = useState(false);
@@ -43,6 +47,8 @@ export function Login(){
 		setLoading(true);
 
 		setInterval(() => setLoading(false), 3000);
+
+		navigation.navigate('tab');
 	}
 
 	return (
