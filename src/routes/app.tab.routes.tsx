@@ -1,13 +1,34 @@
 import React from 'react';
+import { View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
 import { Login } from '../screens/Login';
 import { Home } from '../screens/Home';
-import { PropsNavigationStack } from './models';
+import { Orders } from '../screens/Orders';
+import { Text } from '../components/Text';
+
 import { HomeIcon } from '../components/Icons/HomeIcon';
+import { OrderIcon } from '../components/Icons/OrderIcon';
+import { ProfileIcon } from '../components/Icons/ProfileIcon';
+
+import { PropsNavigationStack } from './models';
 
 const { Navigator, Screen } = createBottomTabNavigator<PropsNavigationStack>();
 const Stack = createNativeStackNavigator();
+
+interface PropsCustomTabBarLabel {
+	label: string;
+	focused: boolean;
+	color: string;
+}
+
+const CustomTabBarLabel = ({ label, focused, color }: PropsCustomTabBarLabel) => (
+	<>
+		<Text color={color} size={14}>{label}</Text>
+		<View style={{ borderBottomWidth: focused ? 2 : 0, borderBottomColor: '#D73035', width: 12, marginTop: 4 }}></View>
+	</>
+);
 
 function AppTabRoutes() {
 
@@ -20,11 +41,15 @@ function AppTabRoutes() {
 				tabBarShowLabel: true, // Exibir o texto do tabBarLabel
 				tabBarStyle: {
 					backgroundColor: '#FFFFFF',
-					minHeight: 72
+					minHeight: 72,
+					paddingBottom: 8,
 				},
 				tabBarLabelStyle: {
 					fontSize: 12,
 				},
+				tabBarIconStyle: {
+					marginBottom: -12
+				}
 			}}
 		>
 			<Screen
@@ -34,10 +59,41 @@ function AppTabRoutes() {
 					tabBarIcon: ({ color }) => (
 						<HomeIcon
 							color={color}
-
 						/>
 					),
-					tabBarLabel: 'Home', // Texto do bottom tab
+					tabBarLabel: ({ focused, color }) => (
+						<CustomTabBarLabel color={color} label='Home' focused={focused} />
+					),
+				}}
+			/>
+
+			<Screen
+				name='Orders'
+				component={Orders}
+				options={{
+					tabBarIcon: ({ color }) => (
+						<OrderIcon
+							color={color}
+						/>
+					),
+					tabBarLabel: ({ focused, color }) => (
+						<CustomTabBarLabel color={color} label='Pedidos' focused={focused} />
+					),
+				}}
+			/>
+
+			<Screen
+				name='Profile'
+				component={Orders}
+				options={{
+					tabBarIcon: ({ color }) => (
+						<ProfileIcon
+							color={color}
+						/>
+					),
+					tabBarLabel: ({ focused, color }) => (
+						<CustomTabBarLabel color={color} label='Perfil' focused={focused} />
+					),
 				}}
 			/>
 
@@ -55,7 +111,6 @@ export const AppRoutes = () => {
 		>
 			<Stack.Screen name='Login' component={Login} />
 			<Stack.Screen name='tab' component={AppTabRoutes} />
-
 		</Stack.Navigator>
 	);
 };
