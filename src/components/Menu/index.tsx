@@ -7,6 +7,7 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import { PlusCircle } from '../Icons/PlusCircle';
 import { ProductModal } from '../ProductModal';
 import { Product } from '../../types/Product';
+import { baseURLApi } from '../../utils/api';
 
 interface MenuProps {
 	onAddToCart: (product: Product) => void;
@@ -35,14 +36,14 @@ export function Menu({ onAddToCart, products }: MenuProps){
 			<FlatList
 				data={products}
 				style={{ marginTop: 32 }}
-				contentContainerStyle={{ paddingHorizontal: 24 }}
+				contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}
 				keyExtractor={product => product._id}
 				ItemSeparatorComponent={S.Separator}
 				renderItem={({ item: product }) => (
 
 					<S.ProductContainer onPress={() => handleOpenModal(product)}>
 						<S.Image
-							source={{ uri: `http://10.10.30.29:3001/uploads/${product.imagePath}` }} /* http://localhost:3001/uploads/${product.imagePath} */
+							source={{ uri: `${baseURLApi}/uploads/${product.imagePath}` }} /* http://localhost:3001/uploads/${product.imagePath} */
 						/>
 
 						<S.ProductDetails>

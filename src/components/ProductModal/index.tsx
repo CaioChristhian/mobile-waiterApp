@@ -6,6 +6,7 @@ import * as S from './styles';
 import { Close } from '../Icons/Close';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { Button } from '../Button';
+import { baseURLApi } from '../../utils/api';
 
 interface ProductModalProps {
 	visible: boolean;
@@ -33,7 +34,7 @@ export function ProductModal({ visible, onClose, product, onAddToCart }: Product
 		>
 			<S.Image
 				source={{
-					uri: `http://10.10.30.29:3001/uploads/${product.imagePath}`, /* htt://localhost:3001/uploads/${product.imagePath} */
+					uri: `${baseURLApi}/uploads/${product.imagePath}`, /* htt://localhost:3001/uploads/${product.imagePath} */
 				}}
 			>
 				<S.CloseButton onPress={onClose}>

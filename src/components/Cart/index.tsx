@@ -11,7 +11,7 @@ import * as S from './styles';
 import { Button } from '../Button';
 import { Product } from '../../types/Product';
 import { OrderConfirmedModal } from '../OrderConfirmedModal';
-import { api } from '../../utils/api';
+import { api, baseURLApi } from '../../utils/api';
 
 
 interface CartProps {
@@ -68,7 +68,7 @@ export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder, selectedTa
 							<S.ProductContainer>
 								<S.Image
 									source={{
-										uri: `http://10.10.30.29:3001/uploads/${cartItem.product.imagePath}` /* http://localhost:3001/uploads/${cartItem.product.imagePath} */
+										uri: `${baseURLApi}/uploads/${cartItem.product.imagePath}` /* http://localhost:3001/uploads/${cartItem.product.imagePath} */
 									}}
 								/>
 
