@@ -163,16 +163,16 @@ export function Main(){
 				)}
 
 			</S.Container>
-			{/* <S.Footer>
+			<S.Footer>
 				<S.FooterContainer>
-					{!selectedTable &&
+					{/* 	{!selectedTable &&
 					<Button
 						disabled={isLoading}
 						onPress={() => setIsTableModalVisible(true)}
 					>
 						Novo Pedido
 					</Button>
-					}
+					} */}
 
 					{selectedTable && (
 						<Cart
@@ -184,7 +184,7 @@ export function Main(){
 						/>
 					)}
 				</S.FooterContainer>
-			</S.Footer> */}
+			</S.Footer>
 
 			<TableModal
 				onSave={handleSaveTable}
