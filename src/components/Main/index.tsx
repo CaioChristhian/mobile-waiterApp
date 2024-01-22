@@ -163,9 +163,12 @@ export function Main(){
 				)}
 
 			</S.Container>
-			<S.Footer>
-				<S.FooterContainer>
-					{/* 	{!selectedTable &&
+
+
+			{selectedTable && (
+				<S.Footer>
+					<S.FooterContainer>
+						{/* 	{!selectedTable &&
 					<Button
 						disabled={isLoading}
 						onPress={() => setIsTableModalVisible(true)}
@@ -174,7 +177,6 @@ export function Main(){
 					</Button>
 					} */}
 
-					{selectedTable && (
 						<Cart
 							selectedTable={selectedTable}
 							onAdd={handleAddToCart}
@@ -182,9 +184,11 @@ export function Main(){
 							onDecrement={handleDecrementCartItem}
 							onConfirmOrder={handleResetOrder}
 						/>
-					)}
-				</S.FooterContainer>
-			</S.Footer>
+
+					</S.FooterContainer>
+				</S.Footer>
+			)}
+
 
 			<TableModal
 				onSave={handleSaveTable}

@@ -1,7 +1,9 @@
 import React from 'react';
 
-import * as S from './styles';
 import { Text } from '../../components/Text';
+import { CardOrder } from '../../components/CardOrder';
+
+import * as S from './styles';
 
 export function Orders(){
 	return (
@@ -10,38 +12,46 @@ export function Orders(){
 				<Text size={24} weight='600'>Pedidos</Text>
 			</S.Header>
 
-			<S.OnGoingOrdersContainer>
-				<Text weight='600' color='#666666' size={18} style={{ marginBottom: 24 }}>
+			<S.OrdersContainer>
+				<S.OnGoingOrdersContainer>
+					<Text weight='600' color='#666666' size={18} style={{ marginBottom: 24 }}>
 					Em andamento
-				</Text>
+					</Text>
 
-				<S.OnGoingOrdersContent>
-					<S.HeaderContent>
-						<Text weight='600'>Mesa123</Text>
+					<CardOrder
+						ingredients={[
+							{ quantity: 2, name: 'Frango com Catupiri' },
+							{ quantity: 1, name: 'Quatro Queijos' }
+						]}
+						table='2'
+						status='Pronto!'
+					/>
 
-						<S.StatusCard>
-							<Text>Pronto!</Text>
-						</S.StatusCard>
-					</S.HeaderContent>
+					<CardOrder
+						ingredients={[
+							{ quantity: 2, name: 'Frango com Catupiri' },
+							{ quantity: 1, name: 'Quatro Queijos' }
+						]}
+						table='5'
+						status='Entrou em produção'
+					/>
+				</S.OnGoingOrdersContainer>
 
-					<S.IngredientsContainer>
-						<S.IngredientsContent>
-							<Text color='#999999' style={{ paddingRight: 8 }}>1x</Text>
-							<Text>Frango com Catupiry</Text>
-						</S.IngredientsContent>
+				<S.BeforeOrdersContainer>
+					<Text weight='600' color='#666666' size={18} style={{ marginBottom: 24, marginTop: 24 }}>
+					Anteriores
+					</Text>
 
-						<S.IngredientsContent>
-							<Text color='#999999' style={{ paddingRight: 8 }}>2x</Text>
-							<Text>Quatro Queijos</Text>
-						</S.IngredientsContent>
-					</S.IngredientsContainer>
-				</S.OnGoingOrdersContent>
-
-			</S.OnGoingOrdersContainer>
-
-			<S.BeforeOrdersContainer>
-
-			</S.BeforeOrdersContainer>
+					<CardOrder
+						ingredients={[
+							{ quantity: 2, name: 'Frango com Catupiri' },
+							{ quantity: 1, name: 'Quatro Queijos' }
+						]}
+						table='5'
+						status='Finalizado em dd/mm/yyyy'
+					/>
+				</S.BeforeOrdersContainer>
+			</S.OrdersContainer>
 		</S.Container>
 	);
 }

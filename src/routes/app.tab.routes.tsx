@@ -13,6 +13,7 @@ import { OrderIcon } from '../components/Icons/OrderIcon';
 import { ProfileIcon } from '../components/Icons/ProfileIcon';
 
 import { PropsNavigationStack } from './models';
+import { Profile } from '../screens/Profile';
 
 const { Navigator, Screen } = createBottomTabNavigator<PropsNavigationStack>();
 const Stack = createNativeStackNavigator();
@@ -84,7 +85,7 @@ function AppTabRoutes() {
 
 			<Screen
 				name='Profile'
-				component={Orders}
+				component={Profile}
 				options={{
 					tabBarIcon: ({ color }) => (
 						<ProfileIcon
