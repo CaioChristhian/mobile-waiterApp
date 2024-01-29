@@ -1,101 +1,35 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 
 import { Text } from '../../components/Text';
 import { CardOrder } from '../../components/CardOrder';
 
 import * as S from './styles';
 import { FlatList } from 'react-native';
-
-const orders = [
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '2',
-		status: 'Pronto!'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Entrou em produção'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Entrou em produção'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Entrou em produção'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Entrou em produção'
-	}
-];
-
-const beforeOrders = [
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '2',
-		status: 'Finalizado em dd/mm/yyyy'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Finalizado em dd/mm/yyyy'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Finalizado em dd/mm/yyyy'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Finalizado em dd/mm/yyyy'
-	},
-	{
-		ingredients: [
-			{ quantity: 2, name: 'Frango com Catupiri' },
-			{ quantity: 1, name: 'Quatro Queijos' }
-		],
-		table: '5',
-		status: 'Finalizado em dd/mm/yyyy'
-	}
-];
-
+import { api } from '../../utils/api';
+import { Order } from '../../types/Order';
 
 export function Orders(){
-
+	const [orders, setOrders] = useState<Order[]>([]);
 	const [isGoing, setIsGoing] = useState(true);
+
+	useEffect(() => {
+		Promise.resolve(api.get('/orders')).then((ordersResponse) => {
+			const orders = ordersResponse.data;
+
+			setOrders(orders);
+		});
+	}, [orders]);
+
+	const filteredOrders = useMemo(() => {
+		return orders.filter(order => {
+			if (isGoing) {
+				return order.status !== 'FINISHED';
+			} else {
+				return order.status === 'FINISHED';
+			}
+		});
+	}, [orders, isGoing]);
+
 
 	function handleIsGoingOrders() {
 		setIsGoing(true);
@@ -104,6 +38,7 @@ export function Orders(){
 	function handleIsBeforeOrders() {
 		setIsGoing(false);
 	}
+
 
 	return (
 		<S.Container>
@@ -123,36 +58,20 @@ export function Orders(){
 			</S.OrdersSituationContainer>
 
 			<S.OrdersContainer>
-
-				{isGoing && (
-					<FlatList
-						contentContainerStyle={{  paddingBottom: 140 }}
-						data={orders}
-						keyExtractor={(item, index) => index.toString()}
-						renderItem={({ item }) => (
-							<CardOrder
-								ingredients={item.ingredients}
-								table={item.table}
-								status={item.status}
-							/>
-						)}
-					/>
-				)}
-
-				{!isGoing && (
-					<FlatList
-						contentContainerStyle={{  paddingBottom: 140 }}
-						data={beforeOrders}
-						keyExtractor={(item, index) => index.toString()}
-						renderItem={({ item }) => (
-							<CardOrder
-								ingredients={item.ingredients}
-								table={item.table}
-								status={item.status}
-							/>
-						)}
-					/>
-				)}
+				<FlatList
+					showsVerticalScrollIndicator={false}
+					contentContainerStyle={{  paddingBottom: 140 }}
+					data={filteredOrders}
+					keyExtractor={(item, index) => index.toString()}
+					renderItem={({ item }) => (
+						<CardOrder
+							_id={item._id}
+							products={item.products}
+							table={item.table}
+							status={item.status}
+						/>
+					)}
+				/>
 			</S.OrdersContainer>
 		</S.Container>
 	);

@@ -1,54 +1,76 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import * as S from './styles';
 import { Text } from '../Text';
 import { StatusBallIcon } from '../Icons/StatusBallIcon';
+import { Status, statusColors, statusColorsBackground, statusDisplayNames } from '../../utils/statusOrders';
+import { Order } from '../../types/Order';
+import { Modal, TouchableOpacity, View } from 'react-native';
+import { api } from '../../utils/api';
 
-export interface CardOrderProps {
-	table: string;
-	status: string | 'Pronto!' | 'Entrou em produção' | 'Finalizado em dd/mm/yyyy';
-	ingredients: Array<{ quantity: number, name: string }>;
-}
+const STATUS_OPTIONS = [
+	{ label: 'Aguardando', value: Status.WAITING },
+	{ label: 'Em Produção', value: Status.IN_PRODUCTION },
+	{ label: 'Concluído', value: Status.DONE },
+	{ label: 'Finalizado', value: Status.FINISHED }
+	// Adicione mais status conforme necessário
+];
 
-const statusColorsBackground = {
-	'Pronto!': 'rgba(48,215,135, 0.05)',
-	'Entrou em produção': 'rgba(215,108,48, 0.05)',
-	'Finalizado em dd/mm/yyyy': 'rgba(102, 102, 102, 0.05)',
-};
+export function CardOrder({ _id, table, status, products }: Order){
+	const [isModalVisible, setIsModalVisible] = useState(false);
 
-const statusColors = {
-	'Pronto!': '#30D787',
-	'Entrou em produção': '#D76C30',
-	'Finalizado em dd/mm/yyyy': '#666666',
-};
+	async function changeStatus(newStatus: Status, orderId: string) {
+		try {
+			const response = await api.patch(`/orders/${orderId}`, {
+				status: newStatus
+			});
+			setIsModalVisible(false);
+			console.log('Order Atualizado', response.data);
+		} catch (error) {
+			console.log('Erro ao atualizar status da order');
+		}
+	}
 
-
-export function CardOrder({ table, status, ingredients }: CardOrderProps){
 	return (
 		<S.Container>
 			<S.HeaderContent>
 				<Text weight='600'>Mesa {table}</Text>
 
-				<S.StatusWrapper style={{
-					backgroundColor: statusColorsBackground[status]
-				}}>
+				<S.StatusWrapper
+					onPress={() => setIsModalVisible(true)}
+					style={{
+						backgroundColor: statusColorsBackground[status]
+					}}
+				>
 					<S.StatusCard>
 						<StatusBallIcon width={12} height={12} color={statusColors[status]} />
-						<Text style={{marginLeft: 8}} color={statusColors[status]}>{status}</Text>
+						<Text style={{marginLeft: 8}} color={statusColors[status]}>{statusDisplayNames[status]}</Text>
 					</S.StatusCard>
 				</S.StatusWrapper>
 			</S.HeaderContent>
 
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={isModalVisible}
+				onRequestClose={() => setIsModalVisible(false)}
+			>
+				<View >
+					{STATUS_OPTIONS.map((option) => (
+						<TouchableOpacity key={option.value} onPress={() => changeStatus(option.value, _id)}>
+							<Text>{option.label}</Text>
+						</TouchableOpacity>
+					))}
+				</View>
+			</Modal>
+
 			<S.IngredientsContainer>
-				{ingredients.map((ingredient, index) => (
-					<S.IngredientsContent key={index}>
-						<Text color='#999999' style={{ paddingRight: 8 }}>{ingredient.quantity}x</Text>
-						<Text>{ingredient.name}</Text>
+				{products.map((product) => (
+					<S.IngredientsContent key={product._id}>
+						<Text color='#999999' style={{ paddingRight: 8 }}>{product.quantity}x</Text>
+						<Text>{product.product.name}</Text>
 					</S.IngredientsContent>
 				))}
 			</S.IngredientsContainer>
-
-
 		</S.Container>
 	);
 }

@@ -34,6 +34,7 @@ export function Menu({ onAddToCart, products }: MenuProps){
 			/>
 
 			<FlatList
+				showsVerticalScrollIndicator={false}
 				data={products}
 				style={{ marginTop: 32 }}
 				contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 24 }}

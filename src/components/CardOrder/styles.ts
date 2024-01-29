@@ -3,7 +3,6 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
 	background-color: #FFFFFF;
 	width: 100%;
-	height: 144px;
 	padding: 24px;
 	border-radius: 8px;
 	margin-bottom: 12px;
@@ -15,7 +14,7 @@ export const HeaderContent = styled.View`
 	margin-bottom: 24px;
 `;
 
-export const StatusWrapper = styled.View`
+export const StatusWrapper = styled.TouchableOpacity`
 	background-color: rgba(48,215,135, 0.05);
 `;
 
