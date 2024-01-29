@@ -4,9 +4,9 @@ import * as S from './styles';
 import { Text } from '../Text';
 import { StatusBallIcon } from '../Icons/StatusBallIcon';
 
-interface CardOrderProps {
+export interface CardOrderProps {
 	table: string;
-	status: 'Pronto!' | 'Entrou em produção' | 'Finalizado em dd/mm/yyyy';
+	status: string | 'Pronto!' | 'Entrou em produção' | 'Finalizado em dd/mm/yyyy';
 	ingredients: Array<{ quantity: number, name: string }>;
 }
 
