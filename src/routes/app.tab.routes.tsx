@@ -36,6 +36,7 @@ function AppTabRoutes() {
 	return (
 		<Navigator
 			screenOptions={{
+				tabBarHideOnKeyboard: true,
 				headerShown: false,
 				tabBarActiveTintColor: '#D73035',
 				tabBarInactiveTintColor: '#666666',
@@ -93,7 +94,7 @@ function AppTabRoutes() {
 						/>
 					),
 					tabBarLabel: ({ focused, color }) => (
-						<CustomTabBarLabel color={color} label='Perfil' focused={focused} />
+						<CustomTabBarLabel color={color} label='Meu Perfil' focused={focused} />
 					),
 				}}
 			/>

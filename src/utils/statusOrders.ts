@@ -7,8 +7,8 @@ export enum Status {
 
 export const statusDisplayNames = {
 	[Status.WAITING]: 'Aguardando',
-	[Status.IN_PRODUCTION]: 'Em Produção',
-	[Status.DONE]: 'Concluído',
+	[Status.IN_PRODUCTION]: 'Entrou em Produção',
+	[Status.DONE]: 'Pronto!',
 	[Status.FINISHED]: 'Finalizado'
 };
 

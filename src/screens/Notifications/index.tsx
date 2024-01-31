@@ -2,7 +2,7 @@ import React from 'react';
 
 import * as S from './styles';
 
-export function StatusModal(){
+export function Notifications(){
 	return (
 		<S.Container>
 

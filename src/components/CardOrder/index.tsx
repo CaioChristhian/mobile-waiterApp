@@ -11,8 +11,8 @@ import { EditIcon } from '../Icons/EditIcon';
 
 const STATUS_OPTIONS = [
 	{ label: 'Aguardando', value: Status.WAITING },
-	{ label: 'Em Produção', value: Status.IN_PRODUCTION },
-	{ label: 'Concluído', value: Status.DONE },
+	{ label: 'Entrou em Produção', value: Status.IN_PRODUCTION },
+	{ label: 'Pronto!', value: Status.DONE },
 	{ label: 'Finalizado', value: Status.FINISHED }
 ];
 
