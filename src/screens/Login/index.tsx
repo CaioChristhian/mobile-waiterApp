@@ -10,6 +10,7 @@ import { Info } from '../../components/Icons/Info';
 import { LoginLoadModal } from '../../components/LoginLoadModal';
 import { useNavigation } from '@react-navigation/native';
 import { PropsStack } from '../../routes/models';
+import { useAuth } from '../../context/AuthContext';
 
 const mocks = {
 	email: 'caio@gmail.com',
@@ -24,9 +25,10 @@ export function Login(){
 	const [errorEmail, setErrorEmail] = useState(false);
 	const [errorPasword, setErrorPasword] = useState(false);
 	const [isLoading, setLoading] = useState(false);
+	const { onLogin, onRegister } = useAuth();
 
 
-	function handleLogin() {
+	/* function handleLogin() {
 		console.log(email);
 		console.log(password);
 
@@ -49,6 +51,22 @@ export function Login(){
 		setInterval(() => setLoading(false), 3000);
 
 		navigation.navigate('tab');
+	} */
+
+	async function handleLogin() {
+		const result = await onLogin!(email, password);
+		if (result && result.error) {
+			alert(result.msg);
+		}
+	}
+
+	async function handleRegister() {
+		const result = await onRegister!(email, password);
+		if (result && result.error) {
+			alert(result.msg);
+		} else {
+			handleLogin();
+		}
 	}
 
 	return (

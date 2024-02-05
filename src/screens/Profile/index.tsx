@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHeaderHeight } from '@react-navigation/elements';
 
 import * as S from './styles';
@@ -8,8 +8,21 @@ import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
 import { Button } from '../../components/Button';
 
 
+
 export function Profile(){
 	const headerHeight = useHeaderHeight();
+
+	const [name, setName] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+
+	function handleChangeProfile() {
+		console.log(name);
+		console.log(email);
+		console.log(password);
+		console.log(confirmPassword);
+	}
 
 	return (
 		<>
@@ -24,19 +37,29 @@ export function Profile(){
 
 					<S.Form showsVerticalScrollIndicator={false}>
 						<Text style={{ marginBottom: 8 }} color='#666666'>Nome</Text>
-						<Input />
+						<Input
+							onChangeText={setName}
+						/>
 
 						<Text style={{ marginBottom: 8, marginTop: 24 }} color='#666666'>E-mail</Text>
-						<Input />
+						<Input
+							onChangeText={setEmail}
+						/>
 
 						<Text style={{ marginBottom: 8, marginTop: 24 }} color='#666666'>Senha</Text>
-						<Input isPassword />
+						<Input
+							isPassword
+							onChangeText={setPassword}
+						/>
 
 						<Text style={{ marginBottom: 8, marginTop: 24 }} color='#666666'>Confirmação da Senha</Text>
-						<Input isPassword />
+						<Input
+							isPassword
+							onChangeText={setConfirmPassword}
+						/>
 
 					</S.Form>
-					<Button  disabled style={{ marginTop: 32 }} onPress={() => alert('oi')}>Salvar Alterações</Button>
+					<Button style={{ marginTop: 32 }} onPress={handleChangeProfile}>Salvar Alterações</Button>
 				</S.Container>
 			</TouchableWithoutFeedback>
 		</>
