@@ -58,7 +58,7 @@ export function AuthProvider({ children }: any) {
 
 	async function login(email: string, password: string) {
 		try {
-			const result = await axios.post(`${baseURLApi}/auth`, { email, password });
+			const result = await axios.post(`${baseURLApi}/userslogin`, { email, password });
 
 			console.log('AuthLogin result:', result);
 
