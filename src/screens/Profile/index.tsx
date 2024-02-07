@@ -6,11 +6,13 @@ import { Text } from '../../components/Text';
 import { Input } from '../../components/Input';
 import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
 import { Button } from '../../components/Button';
+import { useAuth } from '../../context/AuthContext';
 
 
 
 export function Profile(){
 	const headerHeight = useHeaderHeight();
+	const { onLogout } = useAuth();
 
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
@@ -33,6 +35,8 @@ export function Profile(){
 				>
 					<S.Header>
 						<Text size={24} weight='600'>Meu Perfil</Text>
+						<Button onPress={onLogout}>Sair</Button>
+
 					</S.Header>
 
 					<S.Form showsVerticalScrollIndicator={false}>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 
 import * as S from './styles';
@@ -6,7 +7,7 @@ import { ActivityIndicator, TouchableOpacityProps } from 'react-native';
 
 interface ButtonProps extends TouchableOpacityProps {
 	children: string;
-	onPress: () => void;
+	onPress: (() => Promise<void>) | (() => void) | undefined;
 	disabled?: boolean;
 	loading?: boolean;
 }
