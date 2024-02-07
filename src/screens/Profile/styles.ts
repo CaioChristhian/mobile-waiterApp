@@ -12,6 +12,9 @@ export const Container = styled.KeyboardAvoidingView`
 
 export const Header = styled.View`
 	margin-top: 20px;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 `;
 
 export const Form = styled.ScrollView`

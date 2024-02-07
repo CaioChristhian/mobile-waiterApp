@@ -8,47 +8,42 @@ import { Button } from '../../components/Button';
 import * as S from './styles';
 import { Info } from '../../components/Icons/Info';
 import { LoginLoadModal } from '../../components/LoginLoadModal';
-import { useNavigation } from '@react-navigation/native';
-import { PropsStack } from '../../routes/models';
+import { useAuth } from '../../context/AuthContext';
 
-const mocks = {
-	email: 'caio@gmail.com',
-	password: '1234',
-};
 
 export function Login(){
-	const navigation = useNavigation<PropsStack>();
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [errorEmail, setErrorEmail] = useState(false);
 	const [errorPasword, setErrorPasword] = useState(false);
 	const [isLoading, setLoading] = useState(false);
+	const { onLogin, onRegister } = useAuth();
 
 
-	function handleLogin() {
-		console.log(email);
-		console.log(password);
 
-		if (email != mocks.email) {
-			setErrorEmail(true);
-			return;
-		}
-
-		setErrorEmail(false);
-
-		if (password != mocks.password) {
-			setErrorPasword(true);
-			return;
-		}
-
-		setErrorPasword(false);
-
+	async function handleLogin() {
 		setLoading(true);
+		try {
+			const result = await onLogin!(email, password);
+			if (result && result.error) {
+				setErrorEmail(true);
+				setErrorPasword(true);
+			}
+		} catch (error) {
+			console.error('Erro ao realizar login:', error);
+		} finally {
+			setLoading(false);
+		}
+	}
 
-		setInterval(() => setLoading(false), 3000);
-
-		navigation.navigate('tab');
+	async function handleRegister() {
+		const result = await onRegister!(email, password);
+		if (result && result.error) {
+			alert(result.msg);
+		} else {
+			handleLogin();
+		}
 	}
 
 	return (
