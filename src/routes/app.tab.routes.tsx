@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Button, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -13,6 +13,8 @@ import { OrderIcon } from '../components/Icons/OrderIcon';
 import { ProfileIcon } from '../components/Icons/ProfileIcon';
 
 import { PropsNavigationStack } from './models';
+import { Profile } from '../screens/Profile';
+import { useAuth } from '../context/AuthContext';
 
 const { Navigator, Screen } = createBottomTabNavigator<PropsNavigationStack>();
 const Stack = createNativeStackNavigator();
@@ -35,6 +37,7 @@ function AppTabRoutes() {
 	return (
 		<Navigator
 			screenOptions={{
+				tabBarHideOnKeyboard: true,
 				headerShown: false,
 				tabBarActiveTintColor: '#D73035',
 				tabBarInactiveTintColor: '#666666',
@@ -84,7 +87,7 @@ function AppTabRoutes() {
 
 			<Screen
 				name='Profile'
-				component={Orders}
+				component={Profile}
 				options={{
 					tabBarIcon: ({ color }) => (
 						<ProfileIcon
@@ -92,7 +95,7 @@ function AppTabRoutes() {
 						/>
 					),
 					tabBarLabel: ({ focused, color }) => (
-						<CustomTabBarLabel color={color} label='Perfil' focused={focused} />
+						<CustomTabBarLabel color={color} label='Meu Perfil' focused={focused} />
 					),
 				}}
 			/>
@@ -102,15 +105,25 @@ function AppTabRoutes() {
 }
 
 export const AppRoutes = () => {
+	const { authState, onLogout } = useAuth();
+
 	return (
 		<Stack.Navigator
 			screenOptions={{
 				headerShown: false
 			}}
-			initialRouteName='Login'
 		>
-			<Stack.Screen name='Login' component={Login} />
-			<Stack.Screen name='tab' component={AppTabRoutes} />
+			{ authState?.authenticated ? (
+				<Stack.Screen
+					name='tab'
+					component={AppTabRoutes}
+					options={{
+						headerRight: () => <Button onPress={onLogout} title='Sign Out' />
+					}}
+				/>
+			) : (
+				<Stack.Screen name='Login' component={Login} />
+			)}
 		</Stack.Navigator>
 	);
 };

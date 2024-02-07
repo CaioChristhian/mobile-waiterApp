@@ -7,7 +7,7 @@ import { EyeHidden } from '../../components/Icons/EyeHidden';
 
 interface InputProps extends TextInputProps {
 	isPassword?: boolean;
-	placeholder: string;
+	placeholder?: string;
 	error?: boolean;
 }
 
