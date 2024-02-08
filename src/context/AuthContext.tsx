@@ -10,7 +10,7 @@ interface AuthProps {
 		token: string | null;
 		authenticated: boolean | null;
 	}
-	onRegister?: (email: string, password: string) => Promise<any>;
+	onRegister?: (email: string, username: string, password: string, role?: string | 'user' ) => Promise<any>;
 	onLogin?: (email: string, password: string) => Promise<any>;
 	onLogout?: () => Promise<any>;
 }
@@ -48,14 +48,15 @@ export function AuthProvider({ children }: any) {
 		loadToken();
 	}, []);
 
-	async function register(email: string, password: string) {
+	async function register(email: string, username: string, password: string) {
 		try {
-			return await axios.post(`${baseURLApi}/users`, { email, password });
+			const result = await axios.post(`${baseURLApi}/users`, { email, username, password });
+
+			return result;
 		} catch (e) {
 			return {  error: true, msg: (e as any).response.data.msg };
 		}
 	}
-
 	async function login(email: string, password: string) {
 		try {
 			const result = await axios.post(`${baseURLApi}/userslogin`, { email, password });

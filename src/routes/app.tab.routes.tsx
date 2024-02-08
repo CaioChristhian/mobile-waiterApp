@@ -15,6 +15,7 @@ import { ProfileIcon } from '../components/Icons/ProfileIcon';
 import { PropsNavigationStack } from './models';
 import { Profile } from '../screens/Profile';
 import { useAuth } from '../context/AuthContext';
+import { SignUp } from '../screens/SignUp';
 
 const { Navigator, Screen } = createBottomTabNavigator<PropsNavigationStack>();
 const Stack = createNativeStackNavigator();
@@ -122,7 +123,10 @@ export const AppRoutes = () => {
 					}}
 				/>
 			) : (
-				<Stack.Screen name='Login' component={Login} />
+				<>
+					<Stack.Screen name='Login' component={Login} />
+					<Stack.Screen name='SignUp' component={SignUp} />
+				</>
 			)}
 		</Stack.Navigator>
 	);
