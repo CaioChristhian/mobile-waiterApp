@@ -11,24 +11,22 @@ import { LoginLoadModal } from '../../components/LoginLoadModal';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { PropsStack } from '../../routes/models';
+import { ArrowLeft } from '../../components/Icons/ArrowLeft';
 
 
-export function Login(){
+export function SignUp(){
 	const navigation = useNavigation<PropsStack>();
-	const { onLogin } = useAuth();
+	const { onLogin, onRegister } = useAuth();
 
 	const [email, setEmail] = useState('');
+	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
 	const [errorEmail, setErrorEmail] = useState(false);
 	const [errorPasword, setErrorPasword] = useState(false);
 	const [isLoading, setLoading] = useState(false);
 
-	const onPressSignUp = () => {
-		navigation.navigate('SignUp');
-	};
-
 	async function handleLogin() {
-		setLoading(true);
 		try {
 			const result = await onLogin!(email, password);
 			if (result && result.error) {
@@ -37,6 +35,27 @@ export function Login(){
 			}
 		} catch (error) {
 			console.error('Erro ao realizar login:', error);
+		}
+	}
+
+	async function handleRegister() {
+		if (password != confirmPassword) {
+			alert('As senhas diferem');
+			return;
+		}
+
+		setLoading(true);
+		try {
+			const result = await onRegister!(email, username, password);
+
+			if (result && result.error) {
+				alert(result.msg);
+			} else {
+				handleLogin();
+			}
+		} catch (error) {
+			console.error('Error during registration:', error);
+			alert('An error occurred during registration. Please try again.');
 		} finally {
 			setLoading(false);
 		}
@@ -48,16 +67,36 @@ export function Login(){
 
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<S.Container behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
+					<S.BackButton onPress={navigation.goBack}>
+						<ArrowLeft width={24} height={24} color='#D73035' />
+					</S.BackButton>
+
 					<S.HeaderTitle>
-						<Text color="#333333" size={14} weight="400">Bem-vindo(a) ao</Text>
+						<Text color="#333333" size={14} weight="400">Faça seu</Text>
 						<Text size={24} weight="600">
-						WAITTER
-							<Text size={24}>APP</Text>
+						Cadastro
 						</Text>
 					</S.HeaderTitle>
 
 					<S.Form>
 						<S.InputContainer isFirst={true}>
+							<Text style={{ marginBottom: 8 }}>Nome de Usuário</Text>
+							<Input
+								onChangeText={setUsername}
+								placeholderTextColor='#999999'
+								placeholder='Seu nome de usuário'
+								error={errorEmail}
+							/>
+
+							{errorEmail && (
+								<S.ErrorContainer>
+									<Info />
+									<Text color='#D73035' style={{ paddingLeft: 6 }}>E-mail não cadastrado. Tente novamente</Text>
+								</S.ErrorContainer>
+							)}
+						</S.InputContainer>
+
+						<S.InputContainer>
 							<Text style={{ marginBottom: 8 }}>E-mail</Text>
 							<Input
 								onChangeText={setEmail}
@@ -91,14 +130,27 @@ export function Login(){
 								</S.ErrorContainer>
 							)}
 						</S.InputContainer>
+
+						<S.InputContainer>
+							<Text style={{ marginBottom: 8 }}>Confirme sua Senha</Text>
+							<Input
+								onChangeText={setConfirmPassword}
+								isPassword
+								placeholderTextColor='#999999'
+								placeholder='Confirme sua Senha'
+								error={errorPasword}
+							/>
+
+							{errorPasword && (
+								<S.ErrorContainer>
+									<Info />
+									<Text color='#D73035' style={{ paddingLeft: 6, paddingBottom: 18 }}>Senha incorreta. Tente novamente</Text>
+								</S.ErrorContainer>
+							)}
+						</S.InputContainer>
 					</S.Form>
 
-					<S.ButtonsContainer>
-						<Button style={{ width: '100%' }}  onPress={handleLogin}>Fazer Login</Button>
-						<S.SignUpButton onPress={onPressSignUp}>
-							<Text color='#D73035' size={18}>Cadastrar-se</Text>
-						</S.SignUpButton>
-					</S.ButtonsContainer>
+					<Button style={{ width: '100%' }}  onPress={handleRegister}>Cadastrar-se</Button>
 				</S.Container>
 			</TouchableWithoutFeedback>
 		</>
