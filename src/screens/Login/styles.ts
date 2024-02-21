@@ -1,13 +1,16 @@
 import styled from 'styled-components/native';
+import { Platform, StatusBar } from 'react-native';
 
+const isAndroid = Platform.OS === 'android';
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.View`
 	flex: 1;
 	background: #FFFF;
-	align-items: center;
-	justify-content: space-around;
 	padding: 24px;
+	margin-top: ${isAndroid ? `${StatusBar.currentHeight}px` :  '0'};
+	justify-content: space-around;
 `;
+
 
 export const HeaderTitle = styled.View`
 	align-items: center;
