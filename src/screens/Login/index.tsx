@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Keyboard, Platform, TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, Platform, TouchableWithoutFeedback, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { Text } from '../../components/Text';
 import { Input } from '../../components/Input';
@@ -47,59 +47,68 @@ export function Login(){
 			<LoginLoadModal visible={isLoading} />
 
 			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-				<S.Container behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
-					<S.HeaderTitle>
-						<Text color="#333333" size={14} weight="400">Bem-vindo(a) ao</Text>
-						<Text size={24} weight="600">
-						WAITTER
-							<Text size={24}>APP</Text>
-						</Text>
-					</S.HeaderTitle>
+				<SafeAreaView
+					style={{ flex: 1, backgroundColor: '#FFF' }}
+				>
+					<KeyboardAvoidingView
+						style={{ flex: 1}}
+						behavior={Platform.OS === 'android' ? undefined : 'padding'}
+					>
+						<S.Container>
+							<S.HeaderTitle>
+								<Text color="#333333" size={14} weight="400">Bem-vindo(a) ao</Text>
+								<Text size={24} weight="600">
+									WAITTER
+									<Text size={24}>APP</Text>
+								</Text>
+							</S.HeaderTitle>
 
-					<S.Form>
-						<S.InputContainer isFirst={true}>
-							<Text style={{ marginBottom: 8 }}>E-mail</Text>
-							<Input
-								onChangeText={setEmail}
-								placeholderTextColor='#999999'
-								placeholder='Seu e-mail de acesso'
-								error={errorEmail}
-							/>
+							<S.Form>
+								<S.InputContainer isFirst={true}>
+									<Text style={{ marginBottom: 8 }}>E-mail</Text>
+									<Input
+										onChangeText={setEmail}
+										placeholderTextColor='#999999'
+										placeholder='Seu e-mail de acesso'
+										error={errorEmail}
+									/>
 
-							{errorEmail && (
-								<S.ErrorContainer>
-									<Info />
-									<Text color='#D73035' style={{ paddingLeft: 6 }}>E-mail não cadastrado. Tente novamente</Text>
-								</S.ErrorContainer>
-							)}
-						</S.InputContainer>
+									{errorEmail && (
+										<S.ErrorContainer>
+											<Info />
+											<Text color='#D73035' style={{ paddingLeft: 6 }}>E-mail não cadastrado. Tente novamente</Text>
+										</S.ErrorContainer>
+									)}
+								</S.InputContainer>
 
-						<S.InputContainer>
-							<Text style={{ marginBottom: 8 }}>Senha</Text>
-							<Input
-								onChangeText={setPassword}
-								isPassword
-								placeholderTextColor='#999999'
-								placeholder='Informe sua Senha'
-								error={errorPasword}
-							/>
+								<S.InputContainer>
+									<Text style={{ marginBottom: 8 }}>Senha</Text>
+									<Input
+										onChangeText={setPassword}
+										isPassword
+										placeholderTextColor='#999999'
+										placeholder='Informe sua Senha'
+										error={errorPasword}
+									/>
 
-							{errorPasword && (
-								<S.ErrorContainer>
-									<Info />
-									<Text color='#D73035' style={{ paddingLeft: 6, paddingBottom: 18 }}>Senha incorreta. Tente novamente</Text>
-								</S.ErrorContainer>
-							)}
-						</S.InputContainer>
-					</S.Form>
+									{errorPasword && (
+										<S.ErrorContainer>
+											<Info />
+											<Text color='#D73035' style={{ paddingLeft: 6, paddingBottom: 18 }}>Senha incorreta. Tente novamente</Text>
+										</S.ErrorContainer>
+									)}
+								</S.InputContainer>
+							</S.Form>
 
-					<S.ButtonsContainer>
-						<Button style={{ width: '100%' }}  onPress={handleLogin}>Fazer Login</Button>
-						<S.SignUpButton onPress={onPressSignUp}>
-							<Text color='#D73035' size={18}>Cadastrar-se</Text>
-						</S.SignUpButton>
-					</S.ButtonsContainer>
-				</S.Container>
+							<S.ButtonsContainer>
+								<Button style={{ width: '100%' }}  onPress={handleLogin}>Fazer Login</Button>
+								<S.SignUpButton onPress={onPressSignUp}>
+									<Text color='#D73035' size={18}>Cadastrar-se</Text>
+								</S.SignUpButton>
+							</S.ButtonsContainer>
+						</S.Container>
+					</KeyboardAvoidingView>
+				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</>
 	);
