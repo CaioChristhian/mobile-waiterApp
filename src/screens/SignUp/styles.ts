@@ -1,11 +1,11 @@
 import styled from 'styled-components/native';
+import { Platform, StatusBar } from 'react-native';
 
+const isAndroid = Platform.OS === 'android';
 
-export const Container = styled.KeyboardAvoidingView`
+export const Container = styled.View`
 	flex: 1;
 	background: #FFFF;
-	align-items: center;
-	justify-content: space-around;
 	padding: 24px;
 `;
 
@@ -13,14 +13,17 @@ export const BackButton = styled.TouchableOpacity`
 	position: absolute;
 	left: 0;
 	padding: 24px;
+	margin-top: ${isAndroid ? `${StatusBar.currentHeight}px` :  '0'};
 `;
 
 export const HeaderTitle = styled.View`
 	align-items: center;
+	margin-top: ${isAndroid ? `${StatusBar.currentHeight}px` :  '0'};
 `;
 
 export const Form = styled.ScrollView`
 	width: 100%;
+	margin-top: 18px;
 `;
 
 export const InputContainer = styled.View<{ isFirst?: boolean }>`
