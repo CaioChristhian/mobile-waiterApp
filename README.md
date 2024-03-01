@@ -10,25 +10,37 @@
 
 <p align="center">
 <h2 align="center">Login</h2>
-  <img align="center" alt="SignIn" src=".github/LoginScreen.png" max-width="100%">
+  <img align="center" alt="SignIn" src=".github/LoginScreen.jpg" max-width="100%">
+</p>
+<br>
+
+<p align="center">
+<h2 align="center">Sign Up</h2>
+  <img align="center" alt="Sign Up" src=".github/SignUp.jpg" max-width="100%">
 </p>
 <br>
 
 <p align="center">
 <h2 align="center">Loading</h2>
-  <img align="center" alt="SignIn" src=".github/LoadingScreen.png" max-width="100%">
+  <img align="center" alt="Loading" src=".github/LoadingScreen.png" max-width="100%">
 </p>
 <br>
 
 <p align="center">
-<h2 align="center">Home 1.0</h2>
-  <img align="center" alt="SignIn" src=".github/Home-1.0.png" max-width="100%">
+<h2 align="center">Home</h2>
+  <img align="center" alt="Home" src=".github/HomeScreen.jpg" max-width="100%">
 </p>
 <br>
 
 <p align="center">
-<h2 align="center">Home 2.0</h2>
-  <img align="center" alt="SignIn" src=".github/Home-2.0.png" max-width="100%">
+<h2 align="center">Home Selected Category</h2>
+  <img align="center" alt="Home" src=".github/CategoryScreen.jpg" max-width="100%">
+</p>
+<br>
+
+<p align="center">
+<h2 align="center">Home Selected Category (If not exists)</h2>
+  <img align="center" alt="Home" src=".github/NothingScreen.jpg" max-width="100%">
 </p>
 <br>
 
@@ -46,7 +58,7 @@
 
 <p align="center">
 <h2 align="center">Selected Table/Cart</h2>
-  <img align="center" alt="SignIn" src=".github/HomeSelectedTable-1.0.png" max-width="100%">
+  <img align="center" alt="SignIn" src=".github/CartScreen.jpg" max-width="100%">
 </p>
 <br>
 
@@ -57,14 +69,32 @@
 <br>
 
 <p align="center">
-<h2 align="center">1.0 Version video</h2>
-  <img align="center" alt="SignIn" src=".github/waiterApp1.0.gif" max-width="100%">
+<h2 align="center">Orders</h2>
+  <img align="center" alt="SignIn" src=".github/OrdersScreen.jpg" max-width="100%">
 </p>
 <br>
 
 <p align="center">
-<h2 align="center">2.0 Version video</h2>
-  <img align="center" alt="SignIn" src=".github/waiterApp2.0.gif" max-width="100%">
+<h2 align="center">Orders Before</h2>
+  <img align="center" alt="SignIn" src=".github/OrderScreenBefore.jpg" max-width="100%">
+</p>
+<br>
+
+<p align="center">
+<h2 align="center">Change Order Status Modal</h2>
+  <img align="center" alt="SignIn" src=".github/ChangeStatusScreen.jpg" max-width="100%">
+</p>
+<br>
+
+<p align="center">
+<h2 align="center">Profile Screen</h2>
+  <img align="center" alt="SignIn" src=".github/ProfileScreen.jpg" max-width="100%">
+</p>
+<br>
+
+<p align="center">
+<h2 align="center">App Demo</h2>
+  <img align="center" alt="SignIn" src=".github/AppDemo.gif" width="100%">
 </p>
 <br>
 
