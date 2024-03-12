@@ -7,6 +7,7 @@ import * as S from './styles';
 import { FlatList } from 'react-native';
 import { api } from '../../utils/api';
 import { Order } from '../../types/Order';
+import { Empty } from '../../components/Icons/Empty';
 
 export function Orders(){
 	const [orders, setOrders] = useState<Order[]>([]);
@@ -57,22 +58,34 @@ export function Orders(){
 
 			</S.OrdersSituationContainer>
 
-			<S.OrdersContainer>
-				<FlatList
-					showsVerticalScrollIndicator={false}
-					contentContainerStyle={{  paddingBottom: 140 }}
-					data={filteredOrders}
-					keyExtractor={(item, index) => index.toString()}
-					renderItem={({ item }) => (
-						<CardOrder
-							_id={item._id}
-							products={item.products}
-							table={item.table}
-							status={item.status}
-						/>
-					)}
-				/>
-			</S.OrdersContainer>
+
+			{filteredOrders.length > 0 ? (
+				<S.OrdersContainer>
+					<FlatList
+						showsVerticalScrollIndicator={false}
+						contentContainerStyle={{  paddingBottom: 140 }}
+						data={filteredOrders}
+						keyExtractor={(item, index) => index.toString()}
+						renderItem={({ item }) => (
+							<CardOrder
+								_id={item._id}
+								products={item.products}
+								table={item.table}
+								status={item.status}
+							/>
+						)}
+					/>
+				</S.OrdersContainer>
+
+			): (
+				<S.CenteredContainer>
+					<Empty />
+
+					<Text color="#666" style={{ marginTop: 24 }}>
+					Nenhum Pedido foi encontrado!
+					</Text>
+				</S.CenteredContainer>
+			)}
 		</S.Container>
 	);
 }

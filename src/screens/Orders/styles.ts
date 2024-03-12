@@ -14,6 +14,12 @@ export const OrdersContainer = styled.View`
 	padding: 24px;
 `;
 
+export const CenteredContainer = styled.View`
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+`;
+
 export const OrdersSituationContainer = styled.View`
 	width: 100%;
 	height: 46px;
