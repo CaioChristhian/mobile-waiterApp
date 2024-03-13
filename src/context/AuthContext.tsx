@@ -57,6 +57,7 @@ export function AuthProvider({ children }: any) {
 			return {  error: true, msg: (e as any).response.data.msg };
 		}
 	}
+
 	async function login(email: string, password: string) {
 		try {
 			const result = await axios.post(`${baseURLApi}/userslogin`, { email, password });
@@ -65,7 +66,8 @@ export function AuthProvider({ children }: any) {
 
 			setAuthState({
 				token: result.data.token,
-				authenticated: true
+				authenticated: true,
+				user: { _id: result.data.user._id, email: result.data.user.email, username: result.data.user.username } // Supondo que a resposta inclua esses dados
 			});
 
 			axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
@@ -77,6 +79,7 @@ export function AuthProvider({ children }: any) {
 			return {  error: true, msg: (e as any).response.data.msg };
 		}
 	}
+
 
 	async function logout() {
 		await SecureStore.deleteItemAsync(TOKEN_KEY);

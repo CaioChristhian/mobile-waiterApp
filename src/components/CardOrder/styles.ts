@@ -34,6 +34,10 @@ export const IngredientsContent = styled.View`
 	flex-direction: row;
 `;
 
+export const Total = styled.View`
+	margin-left: auto;
+`;
+
 export const ModalBody = styled.View`
 	gap: 12px;
 	background-color: #FFFFFF;
@@ -73,6 +77,13 @@ export const StatusOptionButton = styled.TouchableOpacity`
 `;
 
 export const CloseButton = styled.TouchableOpacity`
+	align-items: center;
+	justify-content: center;
+	margin: 24px;
+`;
+
+
+export const CancelOrderButton = styled.TouchableOpacity`
 	align-items: center;
 	justify-content: center;
 	margin: 24px;

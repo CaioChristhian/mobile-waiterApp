@@ -9,12 +9,13 @@ import { Button } from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
 
 import * as S from './styles';
+import { api } from '../../utils/api';
 
 
 export function Profile(){
-	const { onLogout } = useAuth();
+	const { authState, onLogout } = useAuth();
 
-	const [name, setName] = useState('');
+	const [username, setUserName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -25,11 +26,30 @@ export function Profile(){
 
 	const keyboardVerticalOffset = Platform.OS === 'ios' ? insets.top + headerHeight :  0;
 
-	function handleChangeProfile() {
-		console.log(name);
-		console.log(email);
-		console.log(password);
-		console.log(confirmPassword);
+	async function handleChangeProfile() {
+
+		const _id = authState.user?._id;
+
+		// Verifique se a senha e a confirmação da senha são iguais antes de enviar a requisição
+		if (password !== confirmPassword) {
+			alert('As senhas não coincidem.');
+			return;
+		}
+
+		try {
+			const response = await api.put(`/users/${_id}`, {
+				username,
+				email,
+				password,
+			});
+
+			console.log('Perfil atualizado com sucesso:', response.data);
+			// Atualize o estado do usuário no contexto de autenticação, se necessário
+		} catch (error) {
+			console.error('Erro ao atualizar perfil:', error.response?.data?.message || error.message);
+		}
+
+
 	}
 
 	return (
@@ -51,13 +71,15 @@ export function Profile(){
 							<S.InputContainer>
 								<Text style={{ marginBottom: 8 }} color='#666666'>Nome</Text>
 								<Input
-									onChangeText={setName}
+									placeholder={authState.user?.username}
+									onChangeText={setUserName}
 								/>
 							</S.InputContainer>
 
 							<S.InputContainer>
 								<Text style={{ marginBottom: 8 }} color='#666666'>E-mail</Text>
 								<Input
+									placeholder={authState.user?.email}
 									onChangeText={setEmail}
 								/>
 							</S.InputContainer>
