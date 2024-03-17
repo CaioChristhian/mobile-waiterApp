@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, SafeAreaView } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -9,15 +9,19 @@ import { Button } from '../../components/Button';
 import { useAuth } from '../../context/AuthContext';
 
 import * as S from './styles';
+import { api } from '../../utils/api';
 
 
 export function Profile(){
-	const { onLogout } = useAuth();
+	const { authState, onLogout, updateUser } = useAuth();
 
-	const [name, setName] = useState('');
+	const [username, setUserName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+	const [reload, setReload] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
+
 
 	const headerHeight = useHeaderHeight();
 
@@ -25,12 +29,44 @@ export function Profile(){
 
 	const keyboardVerticalOffset = Platform.OS === 'ios' ? insets.top + headerHeight :  0;
 
-	function handleChangeProfile() {
-		console.log(name);
-		console.log(email);
-		console.log(password);
-		console.log(confirmPassword);
+	async function handleChangeProfile() {
+
+		const _id = authState!.user?._id;
+
+		if (password !== confirmPassword) {
+			alert('As senhas não coincidem.');
+			return;
+		}
+
+		try {
+			setIsLoading(true);
+
+			const response = await api.put(`/users/${_id}`, {
+				username,
+				email,
+				password,
+			});
+
+			updateUser(response.data.user);
+			setReload(!reload);
+
+			setIsLoading(false);
+			console.log('Perfil atualizado com sucesso:', response.data);
+		} catch (error) {
+			setIsLoading(false);
+			console.error('Erro ao atualizar perfil');
+		}
+
+
 	}
+
+	useEffect(() => {
+		console.log(authState!.user?.username);
+		setUserName('');
+		setEmail('');
+		setPassword('');
+		setConfirmPassword('');
+	}, [reload]);
 
 	return (
 		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -51,13 +87,15 @@ export function Profile(){
 							<S.InputContainer>
 								<Text style={{ marginBottom: 8 }} color='#666666'>Nome</Text>
 								<Input
-									onChangeText={setName}
+									placeholder={authState!.user?.username}
+									onChangeText={setUserName}
 								/>
 							</S.InputContainer>
 
 							<S.InputContainer>
 								<Text style={{ marginBottom: 8 }} color='#666666'>E-mail</Text>
 								<Input
+									placeholder={authState!.user?.email}
 									onChangeText={setEmail}
 								/>
 							</S.InputContainer>
@@ -79,7 +117,7 @@ export function Profile(){
 							</S.InputContainer>
 
 						</S.Form>
-						<Button style={{ marginTop: 32 }} onPress={handleChangeProfile}>Salvar Alterações</Button>
+						<Button loading={isLoading} style={{ marginTop: 32 }} onPress={handleChangeProfile}>Salvar Alterações</Button>
 					</S.Container>
 				</KeyboardAvoidingView>
 			</SafeAreaView>

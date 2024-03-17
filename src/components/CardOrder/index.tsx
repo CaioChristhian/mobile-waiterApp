@@ -4,10 +4,11 @@ import { Text } from '../Text';
 import { StatusBallIcon } from '../Icons/StatusBallIcon';
 import { Status, statusColors, statusColorsBackground, statusDisplayNames } from '../../utils/statusOrders';
 import { Order } from '../../types/Order';
-import { Modal, Platform } from 'react-native';
+import { Alert, Modal, Platform } from 'react-native';
 import { api } from '../../utils/api';
 import { Close } from '../Icons/Close';
 import { EditIcon } from '../Icons/EditIcon';
+import { formatCurrency } from '../../utils/formatCurrency';
 
 const STATUS_OPTIONS = [
 	{ label: 'Aguardando', value: Status.WAITING },
@@ -18,6 +19,8 @@ const STATUS_OPTIONS = [
 
 export function CardOrder({ _id, table, status, products }: Order){
 	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	const total = products.reduce((acc, product) => acc + (product.quantity * product.product.price), 0);
 
 	async function changeStatus(newStatus: Status, orderId: string) {
 		try {
@@ -30,6 +33,28 @@ export function CardOrder({ _id, table, status, products }: Order){
 			console.log('Erro ao atualizar status da order');
 		}
 	}
+
+	function handleCancelOrder(orderId: string) {
+		Alert.alert(
+			'Tem certeza?',
+			'Deseja realmente deletar o pedido?',
+			[
+				{
+					text: 'Cancelar',
+					onPress: () => console.log('Cancelado'),
+					style: 'cancel',
+				},
+				{
+					text: 'Deletar',
+					onPress: () => {
+						api.delete(`/orders/${orderId}`);
+					}
+				},
+			],
+			{ cancelable: false }
+		);
+	}
+
 
 	return (
 		<S.Container>
@@ -80,17 +105,27 @@ export function CardOrder({ _id, table, status, products }: Order){
 								</S.StatusOptionButton>
 							))}
 						</S.ModalOptions>
+
+						<S.CancelOrderButton onPress={() => handleCancelOrder(_id)}>
+							<Text color='#D73035'>Deletar Pedido</Text>
+						</S.CancelOrderButton>
 					</S.ModalBody>
 				</S.Overlay >
 			</Modal>
+
 
 			<S.IngredientsContainer>
 				{products.map((product) => (
 					<S.IngredientsContent key={product._id}>
 						<Text color='#999999' style={{ paddingRight: 8 }}>{product.quantity}x</Text>
 						<Text>{product.product.name}</Text>
+						<S.Total>
+							<Text>{formatCurrency(product.quantity * product.product.price)}</Text>
+						</S.Total>
 					</S.IngredientsContent>
 				))}
+
+				<Text weight='700' color='' style={{ marginLeft: 'auto' }}>Total: {formatCurrency(total)}</Text>
 			</S.IngredientsContainer>
 		</S.Container>
 	);
