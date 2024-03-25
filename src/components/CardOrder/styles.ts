@@ -11,7 +11,13 @@ export const Container = styled.View`
 export const HeaderContent = styled.View`
 	flex-direction: row;
 	justify-content: space-between;
-	margin-bottom: 24px;
+`;
+
+export const Separator = styled.View`
+	width: 100%;
+	height: 1px;
+	background: rgba(204, 204, 204, 0.3);
+	margin: 16px 0;
 `;
 
 export const StatusWrapper = styled.TouchableOpacity`
@@ -27,7 +33,7 @@ export const StatusCard = styled.View`
 `;
 
 export const IngredientsContainer = styled.View`
-	gap: 8px;
+	gap: 4px;
 `;
 
 export const IngredientsContent = styled.View`
@@ -36,6 +42,11 @@ export const IngredientsContent = styled.View`
 
 export const Total = styled.View`
 	margin-left: auto;
+`;
+
+export const Footer = styled.View`
+	flex-direction: row;
+	justify-content: space-between;
 `;
 
 export const ModalBody = styled.View`
@@ -87,5 +98,4 @@ export const CancelOrderButton = styled.TouchableOpacity`
 	align-items: center;
 	justify-content: center;
 	margin: 24px;
-
 `;

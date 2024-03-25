@@ -17,7 +17,7 @@ const STATUS_OPTIONS = [
 	{ label: 'Finalizado', value: Status.FINISHED }
 ];
 
-export function CardOrder({ _id, table, status, products }: Order){
+export function CardOrder({ _id, table, status, products, user }: Order){
 	const [isModalVisible, setIsModalVisible] = useState(false);
 
 	const total = products.reduce((acc, product) => acc + (product.quantity * product.product.price), 0);
@@ -57,23 +57,48 @@ export function CardOrder({ _id, table, status, products }: Order){
 
 
 	return (
-		<S.Container>
-			<S.HeaderContent>
-				<Text weight='600'>Mesa {table}</Text>
+		<>
+			<S.Container>
+				<S.HeaderContent>
+					<Text size={18} weight='600'>Mesa {table}</Text>
 
-				<S.StatusWrapper
-					onPress={() => setIsModalVisible(true)}
-					style={{
-						backgroundColor: statusColorsBackground[status]
-					}}
-				>
-					<S.StatusCard>
-						<StatusBallIcon width={12} height={12} color={statusColors[status]} />
-						<Text style={{marginLeft: 8, marginRight: 4}} color={statusColors[status]}>{statusDisplayNames[status]}</Text>
-						<EditIcon color={statusColors[status]} width={16} height={16} />
-					</S.StatusCard>
-				</S.StatusWrapper>
-			</S.HeaderContent>
+					<S.StatusWrapper
+						onPress={() => setIsModalVisible(true)}
+						style={{
+							backgroundColor: statusColorsBackground[status]
+						}}
+					>
+						<S.StatusCard>
+							<StatusBallIcon width={12} height={12} color={statusColors[status]} />
+							<Text style={{marginLeft: 8, marginRight: 4}} color={statusColors[status]}>{statusDisplayNames[status]}</Text>
+							<EditIcon color={statusColors[status]} width={16} height={16} />
+						</S.StatusCard>
+					</S.StatusWrapper>
+				</S.HeaderContent>
+
+
+				<S.Separator></S.Separator>
+
+				<S.IngredientsContainer>
+					{products.map((product) => (
+						<S.IngredientsContent key={product._id}>
+							<Text color='#999999' style={{ paddingRight: 8 }}>{product.quantity}x</Text>
+							<Text>{product.product.name}</Text>
+							<S.Total>
+								<Text>{formatCurrency(product.quantity * product.product.price)}</Text>
+							</S.Total>
+						</S.IngredientsContent>
+					))}
+
+					<S.Separator></S.Separator>
+
+					<S.Footer>
+						<Text weight='600' color='#D73035'>Atendente:  <Text weight='600'>{user.username}</Text></Text>
+
+						<Text weight='700'>Total: {formatCurrency(total)}</Text>
+					</S.Footer>
+				</S.IngredientsContainer>
+			</S.Container>
 
 			<Modal
 				transparent
@@ -112,21 +137,6 @@ export function CardOrder({ _id, table, status, products }: Order){
 					</S.ModalBody>
 				</S.Overlay >
 			</Modal>
-
-
-			<S.IngredientsContainer>
-				{products.map((product) => (
-					<S.IngredientsContent key={product._id}>
-						<Text color='#999999' style={{ paddingRight: 8 }}>{product.quantity}x</Text>
-						<Text>{product.product.name}</Text>
-						<S.Total>
-							<Text>{formatCurrency(product.quantity * product.product.price)}</Text>
-						</S.Total>
-					</S.IngredientsContent>
-				))}
-
-				<Text weight='700' color='' style={{ marginLeft: 'auto' }}>Total: {formatCurrency(total)}</Text>
-			</S.IngredientsContainer>
-		</S.Container>
+		</>
 	);
 }

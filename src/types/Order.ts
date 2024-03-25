@@ -22,5 +22,10 @@ export interface Order {
 		};
 		quantity: number;
 		_id: string;
-}[];
+	}[];
+	user: {
+		_id: string;
+		email: string;
+		username: string;
+	}
 }

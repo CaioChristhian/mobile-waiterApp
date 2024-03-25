@@ -49,11 +49,11 @@ export function Orders(){
 
 			<S.OrdersSituationContainer>
 				<S.IsGoingButton onPress={handleIsGoingOrders} active={isGoing}>
-					<Text style={{ marginBottom: 4 }} weight='600' size={16} color={isGoing ? '#000000' : '#666666'}>em andamento</Text>
+					<Text style={{ marginBottom: 4 }} weight='600' size={16} color={isGoing ? '#000000' : '#666666'}>Em andamento</Text>
 				</S.IsGoingButton>
 
 				<S.IsBeforeButton onPress={handleIsBeforeOrders} active={!isGoing}>
-					<Text style={{ marginBottom: 4 }} weight='600' size={16} color={!isGoing ? '#000000' : '#666666'}>anteriores</Text>
+					<Text style={{ marginBottom: 4 }} weight='600' size={16} color={!isGoing ? '#000000' : '#666666'}>Anteriores</Text>
 				</S.IsBeforeButton>
 
 			</S.OrdersSituationContainer>
@@ -72,6 +72,7 @@ export function Orders(){
 								products={item.products}
 								table={item.table}
 								status={item.status}
+								user={item.user}
 							/>
 						)}
 					/>

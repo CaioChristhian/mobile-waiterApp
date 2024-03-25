@@ -12,6 +12,7 @@ import { Button } from '../Button';
 import { Product } from '../../types/Product';
 import { OrderConfirmedModal } from '../OrderConfirmedModal';
 import { api, baseURLApi } from '../../utils/api';
+import { useAuth } from '../../context/AuthContext';
 
 
 interface CartProps {
@@ -26,6 +27,8 @@ export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder, selectedTa
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
+	const { authState } = useAuth();
+
 
 	const total = cartItems.reduce((acc, cartItem) => {
 		return acc + cartItem.quantity * cartItem.product.price;
@@ -39,7 +42,8 @@ export function Cart({ cartItems, onAdd, onDecrement, onConfirmOrder, selectedTa
 			products: cartItems.map((cartItem) => ({
 				product: cartItem.product._id,
 				quantity: cartItem.quantity
-			}))
+			})),
+			user: authState?.user?._id
 		};
 
 		api.post('/orders', payload);

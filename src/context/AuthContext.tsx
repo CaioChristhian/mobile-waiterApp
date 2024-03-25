@@ -56,31 +56,21 @@ export function AuthProvider({ children }: any) {
 	};
 
 	useEffect(() => {
-		async function loadToken() {
-			const token = await SecureStore.getItemAsync(TOKEN_KEY);
-			console.log('stored:', token);
-
-			if (token) {
-				axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-				try {
-					const response = await api.get(`${baseURLApi}/users`);
-					const user = response.data;
-
-
-
-					console.log(user);
-				} catch (error) {
-					console.log('Erro ao obter dados do usuário');
-				}
+		async function loadUserData() {
+			const storedData = await SecureStore.getItemAsync(TOKEN_KEY);
+			if (storedData) {
+				const userData = JSON.parse(storedData);
+				axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`;
 
 				setAuthState({
-					token: token,
+					token: userData.token,
 					authenticated: true,
+					user: userData.user
 				});
 			}
 		}
-		loadToken();
+
+		loadUserData();
 	}, []);
 
 	async function register(email: string, username: string, password: string) {
@@ -95,23 +85,33 @@ export function AuthProvider({ children }: any) {
 
 	async function login(email: string, password: string) {
 		try {
-			const result = await axios.post(`${baseURLApi}/userslogin`, { email, password });
+			const result = await api.post(`${baseURLApi}/userslogin`, { email, password });
 
 			console.log('AuthLogin result:', result);
+
+			const userData = {
+				token: result.data.token,
+				user: {
+					_id: result.data.user._id,
+					email: result.data.user.email,
+					username: result.data.user.username
+				}
+			};
 
 			setAuthState({
 				token: result.data.token,
 				authenticated: true,
-				user: { _id: result.data.user._id, email: result.data.user.email, username: result.data.user.username }
+				user: userData.user
 			});
 
 			axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
 
-			await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+			// Armazenar os dados do usuário e o token juntos
+			await SecureStore.setItemAsync(TOKEN_KEY, JSON.stringify(userData));
 
 			return result;
 		} catch (e) {
-			return {  error: true, msg: (e as any).response.data.msg };
+			return { error: true, msg: (e as any).response.data.msg };
 		}
 	}
 
@@ -123,7 +123,8 @@ export function AuthProvider({ children }: any) {
 
 		setAuthState({
 			token: null,
-			authenticated: false
+			authenticated: false,
+			user: null
 		});
 	}
 
