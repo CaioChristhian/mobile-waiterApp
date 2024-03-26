@@ -55,6 +55,13 @@ export function CardOrder({ _id, table, status, products, user }: Order){
 		);
 	}
 
+	const formatUsername = (username: string) => {
+		const maxLength = 10;
+		if (username.length > maxLength) {
+			return `${username.substring(0, maxLength)}-\n${username.substring(maxLength)}`;
+		}
+		return username;
+	};
 
 	return (
 		<>
@@ -93,7 +100,7 @@ export function CardOrder({ _id, table, status, products, user }: Order){
 					<S.Separator></S.Separator>
 
 					<S.Footer>
-						<Text weight='600' color='#D73035'>Atendente:  <Text weight='600'>{user.username}</Text></Text>
+						<Text weight='600' color='#D73035'>Atendente:  <Text weight='600'>{formatUsername(user.username)}</Text></Text>
 
 						<Text weight='700'>Total: {formatCurrency(total)}</Text>
 					</S.Footer>
